@@ -1,0 +1,15 @@
+J:\My files\My_projects\JavaScript\WinJsGame\WinJsGame\bin\Debug\ReverseMap\resources.pri
+J:\My files\My_projects\JavaScript\WinJsGame\WinJsGame\bin\Debug\AppxManifest.xml
+J:\My files\My_projects\JavaScript\WinJsGame\WinJsGame\bin\Debug\WinJsGame.build.appxrecipe
+J:\My files\My_projects\JavaScript\WinJsGame\WinJsGame\bld\Debug\priconfig.xml
+J:\My files\My_projects\JavaScript\WinJsGame\WinJsGame\bld\Debug\priconfig.xml.intermediate
+J:\My files\My_projects\JavaScript\WinJsGame\WinJsGame\bld\Debug\layout.resfiles
+J:\My files\My_projects\JavaScript\WinJsGame\WinJsGame\bld\Debug\layout.resfiles.intermediate
+J:\My files\My_projects\JavaScript\WinJsGame\WinJsGame\bld\Debug\resources.resfiles
+J:\My files\My_projects\JavaScript\WinJsGame\WinJsGame\bld\Debug\resources.resfiles.intermediate
+J:\My files\My_projects\JavaScript\WinJsGame\WinJsGame\bld\Debug\pri.resfiles
+J:\My files\My_projects\JavaScript\WinJsGame\WinJsGame\bld\Debug\pri.resfiles.intermediate
+J:\My files\My_projects\JavaScript\WinJsGame\WinJsGame\bld\Debug\qualifiers.txt
+J:\My files\My_projects\JavaScript\WinJsGame\WinJsGame\bld\Debug\qualifiers.txt.intermediate
+J:\My files\My_projects\JavaScript\WinJsGame\WinJsGame\bld\Debug\MultipleQualifiersPerDimensionFound.txt
+J:\My files\My_projects\JavaScript\WinJsGame\WinJsGame\bld\Debug\ProjectArchitectures.txt
