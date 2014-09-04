@@ -28,6 +28,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>ed0073c0-f3c2-4a08-97fe-6c088742a78d</ProjectGuid>
+    <ExpressionBlendVersion>12.0.50716.0</ExpressionBlendVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup Condition="'$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0'">
@@ -48,7 +49,9 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="css\buttons.css" />
     <Content Include="default.html" />
+    <Content Include="images\buttons\return-btn.png" />
     <Content Include="images\silhouette-man-walking-full-black.png" />
     <Content Include="images\silhouette-man-walking.png" />
     <Content Include="images\Square150x150Logo.scale-240.png" />

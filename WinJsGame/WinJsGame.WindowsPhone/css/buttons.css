@@ -1,0 +1,36 @@
+﻿#menu-button {
+	position: relative;
+	height: 100%;
+	width: auto;
+	background-image: url(../images/buttons/return-btn.png);
+	/* TODO */
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+	min-width: 9px;
+}
+
+.answer-btn {
+	/* TODO : background-image */
+	padding: 0px;
+	height: 40%;
+	width: 45%;
+}
+
+#answer-btn1 {
+	margin-top: 2px;
+}
+
+#answer-btn2 {
+	margin-top: 2px;
+	float: right;
+}
+
+#answer-btn3 {
+	margin-bottom: 2px;
+}
+
+#answer-btn4 {
+	margin-bottom: 2px;
+	float: right;
+}

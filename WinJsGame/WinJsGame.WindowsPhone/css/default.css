@@ -1,6 +1,6 @@
 ﻿#field-div {
-    position: absolute;
-    height: 95%;
+    position: relative;
+    height: 90%;
 }
 #images-div {
     position: relative;
@@ -21,8 +21,9 @@
 }
 #answers-div {
 	position: relative;
-	height: auto;
+	height: 20%;
 }
 #footter-div {
     position: relative;
+	height: 10%;
 }
