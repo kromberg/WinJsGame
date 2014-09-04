@@ -1,0 +1,28 @@
+﻿#field-div {
+    position: absolute;
+    height: 95%;
+}
+#images-div {
+    position: relative;
+    height: 80%;
+}
+#full-color-image-div {
+    position: relative;
+}
+#black-white-image-div {
+    position: relative;
+    background-color: #ffffff;
+	height: 100%;
+	width: 100%;
+}
+#black-white-image {
+    height: auto;
+	width: 100%;
+}
+#answers-div {
+	position: relative;
+	height: auto;
+}
+#footter-div {
+    position: relative;
+}
