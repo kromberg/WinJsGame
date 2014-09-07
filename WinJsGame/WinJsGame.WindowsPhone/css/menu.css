@@ -1,0 +1,14 @@
+﻿#lost-div {
+    position: absolute;
+    background-color: #000000;
+    /*display: none;*/
+    opacity: 0;
+    width: 200px;
+    height: 100px;
+}
+
+#lost-div p {
+    text-align: center;
+    font-family: Calibri;
+    font-size: 25pt;
+}

@@ -50,8 +50,8 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="css\buttons.css" />
+    <Content Include="css\menu.css" />
     <Content Include="default.html" />
-    <Content Include="images\buttons\return-btn.png" />
     <Content Include="images\silhouette-man-walking-full-black.png" />
     <Content Include="images\silhouette-man-walking.png" />
     <Content Include="images\Square150x150Logo.scale-240.png" />
@@ -67,6 +67,9 @@
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.Phone.WinJS.2.1, Version=1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="images\buttons\" />
   </ItemGroup>
   <Import Project="..\WinJsGame.Shared\WinJsGame.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).targets" />
