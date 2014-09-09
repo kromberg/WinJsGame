@@ -25,13 +25,13 @@ var question =
     {
         black_white_img_url: "../images/silhouette-man-walking-full-black.png",
         full_color_img_url: "../images/silhouette-man-walking-full-black.png",
-        answers : [
+        answers: [
             "answer1",
             "answer2",
             "answer3",
             "answer4"
         ],
-        correct_answer : 2 // counting from 0
+        correct_answer: 2 // counting from 0
     };
 
 // TODO: random
@@ -50,7 +50,7 @@ function onAnswerBtnClick(eventInfo) {
     }
 
     //alert($("#lost-div"));
-    
+
 
     // get answer button id
     var answer_id = answers_map[eventInfo.target.id];
@@ -64,6 +64,7 @@ function onAnswerBtnClick(eventInfo) {
         // incorrect answer, show fail
         game.changeState(GameState.Lost);
         // TODO: draw 'Lost'
+        WinJS.UI.Animation.fadeIn(document.getElementById("lost-div"));
     }
 }
 
@@ -81,13 +82,17 @@ function onActivated(args) {
         args.setPromise(WinJS.UI.processAll().then(function completed() {
             game.changeState(GameState.Initial);
 
-            var answerBtns = document.getElementsByClassName("answer-btn");
-            for (var i = 0; i < answerBtns.length; ++i) {
-                answerBtns[i].addEventListener("click", onAnswerBtnClick, false);
-            }
+            // set button click listeners
+            $.each($(".answer-btn"), function () {
+                this.addEventListener("click", onAnswerBtnClick, false);
+            });
 
-            $("#lost-div").css("top", ((window.screen.height - $("#lost-div").height()) / 2).toString() + "px");
-            $("#lost-div").css("left", ((window.screen.width - $("#lost-div").width()) / 2).toString() + "px");
+            // set menu button position
+            $("#menu-btn").css("margin-top", (($("#answers-div").height() - $("#menu-btn").height()) / 2).toString() + "px");
+            $("#menu-btn").css("margin-left", (($("#answers-div").width() - $("#menu-btn").width()) / 2).toString() + "px");
+
+            // animate buttons
+            WinJS.UI.Animation.showPanel(document.getElementById("answer-btn1"), {left: "-1000px" });
 
             game.changeState(GameState.Running);
         }));
@@ -112,7 +117,7 @@ function onCheckpoint(args) {
     var app = WinJS.Application;
     app.onactivated = onActivated;
     app.oncheckpoint = onCheckpoint;
-    
+
 
     app.start();
 })();

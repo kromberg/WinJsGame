@@ -1,13 +1,7 @@
 ﻿#menu-btn {
-	position: relative;
-	height: 26.13%;
-	width: auto;
-	/* TODO */
-	align-self: center;
-	float: none;
-	border: 0px;
-	margin: 0px;
-	padding: 0px;
+	position: fixed;
+        margin: 0;
+        padding: 0;
 }
 
 .answer-btn {
