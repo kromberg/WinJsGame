@@ -1,6 +1,24 @@
 ﻿// For an introduction to the Blank template, see the following documentation:
 // http://go.microsoft.com/fwlink/?LinkID=392286
 
+var questions = [];
+// TODO: select from loaded questions
+var question =
+    {
+        black_white_img_url: "../images/heath-ledger-bw.png",
+        full_color_img_url: "../images/heath-ledger-colored.png",
+        answers: [
+            "Heath Ledge",
+            "Thomas Oukledge",
+            "Bran Stark",
+            "Deniel Redcliff"
+        ],
+        correct_answer: 0 // counting from 0
+    };
+
+// TODO: random
+var answers_map = {};
+
 var GameState = {
     Initial: 0,
     Running: 1,
@@ -16,26 +34,58 @@ var game = {
     changeState: function (state) {
         this.prevGameState = this.gameState;
         this.gameState = state;
+        this.onStateChanged();
     },
+    onStateChanged: function () {
+        switch (this.gameState) {
+            case GameState.Initial:
+                // TODO
+                break;
+            case GameState.Running:
+                // TODO: show new question
+                break;
+            case GameState.NextQeuestion:
+                // show image
+                WinJS.UI.executeTransition(
+                    document.getElementById("color-image-div"),
+                    {
+                        property: "opacity",
+                        delay: 0,
+                        duration: 500,
+                        timing: "linear",
+                        from: 0,
+                        to: 1
+                    });
+                // TODO: prepare new question
+                break;
+            case GameState.Paused:
+                // TODO: show menu
+                break;
+            case GameState.Suspended:
+                // TODO
+                break;
+            case GameState.Lost:
+                // show 'Lost' image
+                WinJS.UI.executeTransition(
+                    document.getElementById("lost-div"),
+                    {
+                        property: "opacity",
+                        delay: 0,
+                        duration: 500,
+                        timing: "linear",
+                        from: 0,
+                        to: 1
+                    });
+                break;
+            default:
+                break;
+        }
+    }
 };
 
-//var questions[] = null;
-// TODO: select from loaded questions
-var question =
-    {
-        black_white_img_url: "../images/silhouette-man-walking-full-black.png",
-        full_color_img_url: "../images/silhouette-man-walking-full-black.png",
-        answers: [
-            "answer1",
-            "answer2",
-            "answer3",
-            "answer4"
-        ],
-        correct_answer: 2 // counting from 0
-    };
-
-// TODO: random
-var answers_map =
+function viewQuestion(question) {
+    // TODO: generate answers map
+    answers_map =
     {
         "answer-btn1": 3,
         "answer-btn2": 0,
@@ -43,28 +93,35 @@ var answers_map =
         "answer-btn4": 2,
     };
 
+    // insert images
+    $("#color-image").attr("src", question.full_color_img_url);
+    $("#black-white-image").attr("src", question.black_white_img_url);
+
+    for (var i = 1; i <= 4; ++i) {
+        $("#answer-btn" + i.toString()).html(question.answers[answers_map["answer-btn" + i.toString()]]);
+    }
+
+    // set images position
+    $("#black-white-image").css("margin-top", (($("#black-white-image-div").height() - $("#black-white-image").height()) / 2).toString() + "px");
+    $("#color-image").css("margin-top", (($("#color-image-div").height() - $("#color-image").height()) / 2).toString() + "px");
+}
+
 function onAnswerBtnClick(eventInfo) {
     if (GameState.Running != game.gameState) {
         // TODO: some error log
         return;
     }
 
-    //alert($("#lost-div"));
-
-
     // get answer button id
     var answer_id = answers_map[eventInfo.target.id];
 
-    if (question.correct_answer == question.answers[answer_id]) {
+    if (question.correct_answer == answer_id) {
         // correct answer
         game.changeState(GameState.NextQeuestion);
-        // TODO: show image
     }
     else {
         // incorrect answer, show fail
         game.changeState(GameState.Lost);
-        // TODO: draw 'Lost'
-        WinJS.UI.Animation.fadeIn(document.getElementById("lost-div"));
     }
 }
 
@@ -88,8 +145,12 @@ function onActivated(args) {
             });
 
             // set menu button position
+            $("#menu-btn").css("width", $("#menu-btn").height().toString() + "px");
             $("#menu-btn").css("margin-top", (($("#answers-div").height() - $("#menu-btn").height()) / 2).toString() + "px");
             $("#menu-btn").css("margin-left", (($("#answers-div").width() - $("#menu-btn").width()) / 2).toString() + "px");
+
+            // view first question
+            viewQuestion(question);
 
             // animate buttons
             WinJS.UI.Animation.showPanel(document.getElementById("answer-btn1"), {left: "-1000px" });

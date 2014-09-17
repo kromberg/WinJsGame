@@ -1,13 +1,14 @@
 ﻿#lost-div {
     position: absolute;
     background-color: #000000;
-    /*display: none;*/
+    border-color: #ffffff;
+    border: 1px;
     opacity: 0;
     width: 200px;
     height: 100px;
     margin: auto;
-    top:0;
-    bottom:0;
+    top: 0;
+    bottom: 0;
     left: 0;
     right: 0;
 }

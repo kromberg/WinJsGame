@@ -5,20 +5,35 @@
 #images-div {
     position: relative;
     height: 80%;
+    width: 100%;
 }
-#full-color-image-div {
-    position: relative;
-}
-#black-white-image-div {
-    position: relative;
+#color-image-div {
+    position: fixed;
     background-color: #ffffff;
-    height: 100%;
-    width: 100%;
+    height: inherit;
+    width: inherit;
+    opacity: 0;
 }
-#black-white-image {
+
+#color-image {
+    position: fixed;
+    width: inherit;
     height: auto;
-    width: 100%;
 }
+
+#black-white-image-div {
+    position: fixed;
+    background-color: #ffffff;
+    height: inherit;
+    width: inherit;
+}
+
+#black-white-image {
+    position: fixed;
+    width: inherit;
+    height: auto;
+}
+
 #answers-div {
     position: relative;
     height: 20%;
