@@ -16,7 +16,8 @@ var question =
         correct_answer: 0 // counting from 0
     };
 
-// TODO: random
+// answers numbers and mapping
+var answers_numbers = [];
 var answers_map = {};
 
 var GameState = {
@@ -84,13 +85,24 @@ var game = {
 };
 
 function viewQuestion(question) {
-    // TODO: generate answers map
+
+    // generate random asnwer numbers
+    var numbers = [0, 1, 2, 3];
+    answers_numbers = [];
+    var idx;
+    while (numbers.length != 0) {
+        idx = parseInt(1000 * Math.random()) % numbers.length;
+        answers_numbers.push(numbers[idx]);
+        numbers.splice(idx, 1);
+    }
+
+    // set answers map
     answers_map =
     {
-        "answer-btn1": 3,
-        "answer-btn2": 0,
-        "answer-btn3": 1,
-        "answer-btn4": 2,
+        "answer-btn1": answers_numbers[0],
+        "answer-btn2": answers_numbers[1],
+        "answer-btn3": answers_numbers[2],
+        "answer-btn4": answers_numbers[3],
     };
 
     // insert images
@@ -115,7 +127,7 @@ function onAnswerBtnClick(eventInfo) {
     // get answer button id
     var answer_id = answers_map[eventInfo.target.id];
 
-    if (question.correct_answer == answer_id) {
+    if (question.correct_answer == answers_numbers[answer_id]) {
         // correct answer
         game.changeState(GameState.NextQeuestion);
     }
@@ -144,9 +156,14 @@ function onActivated(args) {
                 this.addEventListener("click", onAnswerBtnClick, false);
             });
 
+            // set button event listener
+            document.getElementById("menu-btn").addEventListener("click", function (eventInfo) {
+                // TODO
+            },
+            false);
+
             // set menu button position
-            $("#menu-btn").css("width", $("#menu-btn").height().toString() + "px");
-            $("#menu-btn").css("margin-top", (($("#answers-div").height() - $("#menu-btn").height()) / 2).toString() + "px");
+            $("#menu-btn").css("width", $("#menu-btn").outerHeight().toString() + "px");
             $("#menu-btn").css("margin-left", (($("#answers-div").width() - $("#menu-btn").width()) / 2).toString() + "px");
 
             // view first question
