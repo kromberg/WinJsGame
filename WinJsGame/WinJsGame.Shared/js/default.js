@@ -1,18 +1,28 @@
 ﻿// For an introduction to the Blank template, see the following documentation:
 // http://go.microsoft.com/fwlink/?LinkID=392286
 
+var bundles = [];
 var questions = [];
-// TODO: select from loaded questions
+// TODO: select from loaded bundles
 var question =
     {
         black_white_img_url: "../images/heath-ledger-bw.png",
         full_color_img_url: "../images/heath-ledger-colored.png",
-        answers: [
-            "Heath Ledge",
-            "Thomas Oukledge",
-            "Bran Stark",
-            "Deniel Redcliff"
-        ],
+        answers:
+        {
+            en: [
+                "Heath Ledger",
+                "Thomas Ostermeier",
+                "Brandon Stark",
+                "Daniel Radcliffe"
+            ],
+            ru: [
+                "Хит Леджер",
+                "Томас Остермайер",
+                "Брандон Старк",
+                "Дэниел Рэдклифф"
+            ]
+        },
         correct_answer: 0 // counting from 0
     };
 
@@ -29,6 +39,10 @@ var GameState = {
     Lost: 5,
 };
 
+function onGlobalClick(eventInfo) {
+    game.changeState(GameState.Running);
+}
+
 var game = {
     gameState: GameState.Initial,
     prevGameState: GameState.Initial,
@@ -43,7 +57,9 @@ var game = {
                 // TODO
                 break;
             case GameState.Running:
-                // TODO: show new question
+                // show next question
+                document.getElementById("phone-body").removeEventListener("click", onGlobalClick, true);
+                viewQuestion(question);
                 break;
             case GameState.NextQeuestion:
                 // show image
@@ -57,7 +73,11 @@ var game = {
                         from: 0,
                         to: 1
                     });
+                // TODO: register onclick
+                document.getElementById("phone-body").addEventListener("click", onGlobalClick, true);
                 // TODO: prepare new question
+                //question = ;
+
                 break;
             case GameState.Paused:
                 // TODO: show menu
@@ -85,7 +105,6 @@ var game = {
 };
 
 function viewQuestion(question) {
-
     // generate random asnwer numbers
     var numbers = [0, 1, 2, 3];
     answers_numbers = [];
@@ -105,17 +124,51 @@ function viewQuestion(question) {
         "answer-btn4": answers_numbers[3],
     };
 
+    // set images opacity
+    $("#color-image-div").css("opacity", 0);
+    $("#black-white-image-div").css("opacity", 0);
+
     // insert images
     $("#color-image").attr("src", question.full_color_img_url);
     $("#black-white-image").attr("src", question.black_white_img_url);
 
+    // TODO: get region
     for (var i = 1; i <= 4; ++i) {
-        $("#answer-btn" + i.toString()).html(question.answers[answers_map["answer-btn" + i.toString()]]);
+        $("#answer-btn" + i.toString()).html(question.answers.en[answers_map["answer-btn" + i.toString()]]);
     }
 
     // set images position
     $("#black-white-image").css("margin-top", (($("#black-white-image-div").height() - $("#black-white-image").height()) / 2).toString() + "px");
     $("#color-image").css("margin-top", (($("#color-image-div").height() - $("#color-image").height()) / 2).toString() + "px");
+
+    // annimate image
+    WinJS.UI.executeTransition(
+        document.getElementById("black-white-image-div"),
+        {
+            property: "opacity",
+            delay: 0,
+            duration: 500,
+            timing: "linear",
+            from: 0,
+            to: 1
+        });
+}
+
+function loadBundle(pathToBundle) {
+    //var url = new Windows.Foundation.Uri(pathToBundle);
+    //Windows.Storage.StorageFile.getFileFromApplicationUriAsync(url).then(function (file) {
+    //    Windows.Storage.FileIO.readTextAsync(file).then(function (text) {
+    //        var bundle = JSON.parse(bundleText);
+    //        bundles.push(bundle);
+    //        // do something with object
+    //    });
+    //});
+    WinJS.xhr({
+        url: pathToBundle
+    }).then(function (response) {
+            var bundle = JSON.parse(response.responseText);
+            bundles.push(bundle);
+    });
 }
 
 function onAnswerBtnClick(eventInfo) {
@@ -127,7 +180,7 @@ function onAnswerBtnClick(eventInfo) {
     // get answer button id
     var answer_id = answers_map[eventInfo.target.id];
 
-    if (question.correct_answer == answers_numbers[answer_id]) {
+    if (question.correct_answer == answer_id) {
         // correct answer
         game.changeState(GameState.NextQeuestion);
     }
@@ -169,9 +222,8 @@ function onActivated(args) {
             // view first question
             viewQuestion(question);
 
-            // animate buttons
-            WinJS.UI.Animation.showPanel(document.getElementById("answer-btn1"), {left: "-1000px" });
-
+            loadBundle("ms-appx:///images/bundle.json");
+            // TODO: show menu: state=Initial
             game.changeState(GameState.Running);
         }));
     }
