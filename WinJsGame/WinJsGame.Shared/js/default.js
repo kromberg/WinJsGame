@@ -3,40 +3,41 @@
 
 var bundles = [];
 var questions = [];
-// TODO: select from loaded bundles
-var question =
-    {
-        black_white_img_url: "../images/heath-ledger-bw.png",
-        full_color_img_url: "../images/heath-ledger-colored.png",
-        answers:
-        {
-            en: [
-                "Heath Ledger",
-                "Thomas Ostermeier",
-                "Brandon Stark",
-                "Daniel Radcliffe"
-            ],
-            ru: [
-                "Хит Леджер",
-                "Томас Остермайер",
-                "Брандон Старк",
-                "Дэниел Рэдклифф"
-            ]
-        },
-        correct_answer: 0 // counting from 0
-    };
+var question = {};
+//var question =
+//    {
+//        black_white_img_url: "../images/heath-ledger-bw.png",
+//        full_color_img_url: "../images/heath-ledger-colored.png",
+//        answers:
+//        {
+//            en: [
+//                "Heath Ledger",
+//                "Thomas Ostermeier",
+//                "Brandon Stark",
+//                "Daniel Radcliffe"
+//            ],
+//            ru: [
+//                "Хит Леджер",
+//                "Томас Остермайер",
+//                "Брандон Старк",
+//                "Дэниел Рэдклифф"
+//            ]
+//        },
+//        correct_answer: 0 // counting from 0
+//    };
 
 // answers numbers and mapping
 var answers_numbers = [];
 var answers_map = {};
 
 var GameState = {
-    Initial: 0,
-    Running: 1,
-    NextQeuestion: 2,
-    Paused: 3,
-    Suspended: 4,
-    Lost: 5,
+    Initial:       0,
+    Loading:       1,
+    Running:       2,
+    NextQeuestion: 3,
+    Paused:        4,
+    Suspended:     5,
+    Lost:          6,
 };
 
 function onGlobalClick(eventInfo) {
@@ -56,9 +57,17 @@ var game = {
             case GameState.Initial:
                 // TODO
                 break;
+            case GameState.Loading:
+                // load bundle
+                loadBundle("ms-appx:///images/bundle.json");
+                break;
             case GameState.Running:
                 // show next question
                 document.getElementById("phone-body").removeEventListener("click", onGlobalClick, true);
+                if (null === question) {
+                    // show error message
+                    return;
+                }
                 viewQuestion(question);
                 break;
             case GameState.NextQeuestion:
@@ -76,7 +85,7 @@ var game = {
                 // TODO: register onclick
                 document.getElementById("phone-body").addEventListener("click", onGlobalClick, true);
                 // TODO: prepare new question
-                //question = ;
+                question = getNextQuestion();
 
                 break;
             case GameState.Paused:
@@ -104,13 +113,24 @@ var game = {
     }
 };
 
+function getNextQuestion() {
+    // get random question and remove it from questions
+    if (0 == questions.length)
+        return null;
+    var _question_id = Math.floor(Math.random() * questions.length);
+    var _question = questions[_question_id];
+    questions.splice(_question_id, 1);
+
+    return _question;
+}
+
 function viewQuestion(question) {
     // generate random asnwer numbers
     var numbers = [0, 1, 2, 3];
     answers_numbers = [];
     var idx;
     while (numbers.length != 0) {
-        idx = parseInt(1000 * Math.random()) % numbers.length;
+        idx = Math.floor(1000 * Math.random()) % numbers.length;
         answers_numbers.push(numbers[idx]);
         numbers.splice(idx, 1);
     }
@@ -155,19 +175,24 @@ function viewQuestion(question) {
 }
 
 function loadBundle(pathToBundle) {
-    //var url = new Windows.Foundation.Uri(pathToBundle);
-    //Windows.Storage.StorageFile.getFileFromApplicationUriAsync(url).then(function (file) {
-    //    Windows.Storage.FileIO.readTextAsync(file).then(function (text) {
-    //        var bundle = JSON.parse(bundleText);
-    //        bundles.push(bundle);
-    //        // do something with object
-    //    });
-    //});
     WinJS.xhr({
         url: pathToBundle
     }).then(function (response) {
-            var bundle = JSON.parse(response.responseText);
-            bundles.push(bundle);
+        var bundle = JSON.parse(response.responseText);
+        bundles.push(bundle);
+
+        // TMP
+        questions = bundles[0].questions;
+
+        // get first question
+        question = getNextQuestion();
+        if (null === question) {
+            // show error message
+            return;
+        }
+
+        // change state to 'Running'
+        game.changeState(GameState.Running);
     });
 }
 
@@ -219,12 +244,8 @@ function onActivated(args) {
             $("#menu-btn").css("width", $("#menu-btn").outerHeight().toString() + "px");
             $("#menu-btn").css("margin-left", (($("#answers-div").width() - $("#menu-btn").width()) / 2).toString() + "px");
 
-            // view first question
-            viewQuestion(question);
-
-            loadBundle("ms-appx:///images/bundle.json");
-            // TODO: show menu: state=Initial
-            game.changeState(GameState.Running);
+            // set state to 'Loading'
+            game.changeState(GameState.Loading);
         }));
     }
 }

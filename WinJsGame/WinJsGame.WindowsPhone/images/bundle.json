@@ -1,10 +1,10 @@
 ﻿{
     "bundle_name": "Test Bundle",
-    "version" : 1,
+    "version": 1,
     "questions": [
         {
-            "black_white_img_url": "../images/heath-ledger-bw.png",
-            "full_color_img_url": "../images/heath-ledger-colored.png",
+            "black_white_img_url": "images/heath-ledger-bw.png",
+            "full_color_img_url": "images/heath-ledger-colored.png",
             "answers": {
                 "en": [
                     "Heath Ledger",
@@ -17,6 +17,25 @@
                     "Томас Остермайер",
                     "Брандон Старк",
                     "Дэниел Рэдклифф"
+                ]
+            },
+            "correct_answer": 0
+        },
+        {
+            "black_white_img_url": "images/robert-de-niro-bw.png",
+            "full_color_img_url": "images/robert-de-niro-colored.png",
+            "answers": {
+                "en": [
+                    "Robert De Niro",
+                    "Gerard Depardieu",
+                    "Jean-Paul Belmondo",
+                    "Charles Dullin"
+                ],
+                "ru": [
+                    "Хит Леджер",
+                    "Жерар Депардьё",
+                    "Жан-Поль Бельмондо",
+                    "Шарль Дюллен"
                 ]
             },
             "correct_answer": 0
