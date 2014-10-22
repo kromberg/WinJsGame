@@ -1,45 +1,47 @@
 ﻿#menu-btn {
     position: fixed;
-    /*background-image: url("../images/buttons/menu.png");*/
+    /*background-image: url("../images/buttons/menu.png");
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: cover;*/
+    background-color: #000000;
     height: inherit;
     margin: 0;
     padding: 0;
     border-width: 5px;
     border-radius: 50%;
-    z-index: 1000;
+    z-index: 1001;
+}
+
+#menu-btn:active {
+    background-color: #5239ba;
 }
 
 .answer-btn {
     padding: 0px;
-    height: 40%;
-    width: 45%;
-    z-index: 1001;
+    margin: 0px;
+    height: 50%;
+    width: 50%;
+    z-index: 1000;
 }
 
 #answer-btn1 {
     /* TODO : background-image */
-    margin-top: 2px;
     text-align: left;
 }
 
 #answer-btn2 {
     /* TODO : background-image */
-    margin-top: 2px;
     float: right;
     text-align: right;
 }
 
 #answer-btn3 {
     /* TODO : background-image */
-    margin-bottom: 2px;
     text-align: left;
 }
 
 #answer-btn4 {
     /* TODO : background-image */
-    margin-bottom: 2px;
     float: right;
     text-align: right;
 }

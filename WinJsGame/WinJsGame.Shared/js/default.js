@@ -235,14 +235,16 @@ function onActivated(args) {
             });
 
             // set button event listener
-            document.getElementById("menu-btn").addEventListener("click", function (eventInfo) {
+            /*document.getElementById("menu-btn").addEventListener("click", function (eventInfo) {
                 // TODO
             },
             false);
 
             // set menu button position
+            $("#menu-btn").css("height", Math.floor(0.8 * $("#answers-div").outerHeight()).toString() + "px");
             $("#menu-btn").css("width", $("#menu-btn").outerHeight().toString() + "px");
-            $("#menu-btn").css("margin-left", (($("#answers-div").width() - $("#menu-btn").width()) / 2).toString() + "px");
+            $("#menu-btn").css("margin-top", (($("#answers-div").outerHeight() - $("#menu-btn").outerHeight()) / 2).toString() + "px");
+            $("#menu-btn").css("margin-left", (($("#answers-div").outerWidth() - $("#menu-btn").outerWidth()) / 2).toString() + "px");*/
 
             // set state to 'Loading'
             game.changeState(GameState.Loading);
