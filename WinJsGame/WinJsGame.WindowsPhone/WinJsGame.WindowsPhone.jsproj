@@ -52,6 +52,7 @@
     <Content Include="css\buttons.css" />
     <Content Include="css\menu.css" />
     <Content Include="default.html" />
+    <Content Include="html\menu.html" />
     <Content Include="images\buttons\menu.png" />
     <Content Include="images\heath-ledger-bw.png" />
     <Content Include="images\heath-ledger-colored.png" />
@@ -68,6 +69,7 @@
     <Content Include="css\ui-themed.css" />
     <Content Include="css\ui-themed.theme-dark.css" />
     <Content Include="css\ui-themed.theme-light.css" />
+    <Content Include="html\initial_menu.html" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.Phone.WinJS.2.1, Version=1.0" />

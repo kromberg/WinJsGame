@@ -27,17 +27,17 @@ var question = {};
 //    };
 
 // answers numbers and mapping
-var answers_numbers = [];
 var answers_map = {};
 
 var GameState = {
-    Initial:       0,
-    Loading:       1,
-    Running:       2,
-    NextQeuestion: 3,
-    Paused:        4,
-    Suspended:     5,
-    Lost:          6,
+    Initial: 0,
+    Loading: 1,
+    Running: 2,
+    Playing: 3,
+    NextQeuestion: 4,
+    Paused: 5,
+    Suspended: 6,
+    Lost: 7,
 };
 
 function onGlobalClick(eventInfo) {
@@ -62,6 +62,9 @@ var game = {
                 loadBundle("ms-appx:///images/bundle.json");
                 break;
             case GameState.Running:
+                showMenu(true);
+                break;
+            case GameState.Playing:
                 // show next question
                 document.getElementById("phone-body").removeEventListener("click", onGlobalClick, true);
                 if (null === question) {
@@ -82,20 +85,39 @@ var game = {
                         from: 0,
                         to: 1
                     });
-                // TODO: register onclick
+                // register onclick
                 document.getElementById("phone-body").addEventListener("click", onGlobalClick, true);
-                // TODO: prepare new question
-                question = getNextQuestion();
+                // prepare new question
+                result = getNextQuestion();
+                if (null === result) {
+                    // TODO: log error? exit
+                    return;
+                }
+                question = result.question;
+                answers_map = result.answers_map;
 
                 break;
             case GameState.Paused:
-                // TODO: show menu
+                // show menu
+                showMenu(false);
+                function onBackBtnPressed(eventInfo) {
+                    // Notifies OS that you've handled the back button event.
+                    eventInfo.handled = true;
+
+                    // hide menu and set previous game state
+                    hideMenu();
+                    game.changeState(game.prevGameState);
+                    // remove event listener from back button
+                    Windows.Phone.UI.Input.HardwareButtons.removeEventListener("backpressed", onBackBtnPressed);
+                }
+                Windows.Phone.UI.Input.HardwareButtons.addEventListener("backpressed", onBackBtnPressed);
                 break;
             case GameState.Suspended:
                 // TODO
                 break;
             case GameState.Lost:
                 // show 'Lost' image
+                $("#lost-div").css("display", "block");
                 WinJS.UI.executeTransition(
                     document.getElementById("lost-div"),
                     {
@@ -121,29 +143,29 @@ function getNextQuestion() {
     var _question = questions[_question_id];
     questions.splice(_question_id, 1);
 
-    return _question;
-}
-
-function viewQuestion(question) {
     // generate random asnwer numbers
-    var numbers = [0, 1, 2, 3];
-    answers_numbers = [];
-    var idx;
-    while (numbers.length != 0) {
-        idx = Math.floor(1000 * Math.random()) % numbers.length;
-        answers_numbers.push(numbers[idx]);
-        numbers.splice(idx, 1);
+    var _numbers = [0, 1, 2, 3];
+    var _answers_numbers = [];
+    var _idx;
+    while (_numbers.length != 0) {
+        _idx = Math.floor(1000 * Math.random()) % _numbers.length;
+        _answers_numbers.push(_numbers[_idx]);
+        _numbers.splice(_idx, 1);
     }
 
     // set answers map
-    answers_map =
+    var _answers_map =
     {
-        "answer-btn1": answers_numbers[0],
-        "answer-btn2": answers_numbers[1],
-        "answer-btn3": answers_numbers[2],
-        "answer-btn4": answers_numbers[3],
+        "answer-btn1": _answers_numbers[0],
+        "answer-btn2": _answers_numbers[1],
+        "answer-btn3": _answers_numbers[2],
+        "answer-btn4": _answers_numbers[3],
     };
 
+    return { question: _question, answers_map: _answers_map };
+}
+
+function viewQuestion(question) {
     // set images opacity
     $("#color-image-div").css("opacity", 0);
     $("#black-white-image-div").css("opacity", 0);
@@ -185,19 +207,134 @@ function loadBundle(pathToBundle) {
         questions = bundles[0].questions;
 
         // get first question
-        question = getNextQuestion();
-        if (null === question) {
+        result = getNextQuestion();
+        if (null === result) {
             // show error message
             return;
         }
+        question = result.question;
+        answers_map = result.answers_map;
 
         // change state to 'Running'
         game.changeState(GameState.Running);
     });
 }
 
+function hideMenu() {
+    // annimate menu
+    WinJS.UI.executeTransition(
+        document.getElementById("menu-div"),
+        {
+            property: "opacity",
+            delay: 0,
+            duration: 500,
+            timing: "linear",
+            from: 1,
+            to: 0
+        }).done(
+        function () {
+            $("#menu-div").css("width", "0px");
+            $("#menu-div").css("height", "0px");
+            $("#menu-div").css("display", "none");
+        });
+    // annimate overlay
+    WinJS.UI.executeTransition(
+        document.getElementById("overlay-div"),
+        {
+            property: "opacity",
+            delay: 0,
+            duration: 500,
+            timing: "linear",
+            from: 0.5,
+            to: 0
+        }).done(
+        function () {
+            $("#overlay-div").css("width", "0px");
+            $("#overlay-div").css("height", "0px");
+            $("#overlay-div").css("display", "none");
+        });
+}
+
+function showMenu(initial) {
+    // TODO: generate menu
+    var menuHtmlUri;
+    if (initial) {
+        menuHtmlUri = "ms-appx:///html/initial_menu.html";
+    }
+    else {
+        menuHtmlUri = "ms-appx:///html/menu.html";
+    }
+    WinJS.xhr({
+        url: menuHtmlUri
+    }).then(function (response) {
+        WinJS.Utilities.setInnerHTML(document.getElementById("menu-div"), response.responseText);
+
+        $("#overlay-div").css("width", "100%");
+        $("#overlay-div").css("height", "100%");
+        $("#overlay-div").css("display", "block");
+
+        $("#menu-div").css("width", "300px");
+        $("#menu-div").css("display", "block");
+
+        // fill menu
+        var menu_div_height = 0;
+        $("#menu-div").children().each(function () {
+            menu_div_height += $(this).outerHeight();
+        });
+        $("#menu-div").css("height", menu_div_height.toString() + "px");
+
+        if (!initial) {
+            // annimate overlay
+            WinJS.UI.executeTransition(
+                document.getElementById("overlay-div"),
+                {
+                    property: "opacity",
+                    delay: 0,
+                    duration: 500,
+                    timing: "linear",
+                    from: 1,
+                    to: 0.5
+                });
+            // annimate menu
+            WinJS.UI.executeTransition(
+                document.getElementById("menu-div"),
+                {
+                    property: "opacity",
+                    delay: 0,
+                    duration: 500,
+                    timing: "linear",
+                    from: 0,
+                    to: 1
+                });
+        }
+
+        // register menu buttons events
+        if (initial) {
+            document.getElementById("new-game-btn").addEventListener("click", function (eventInfo) {
+                hideMenu();
+                game.changeState(GameState.Playing);
+            },
+            false);
+        }
+        else {
+            document.getElementById("resart-game-btn").addEventListener("click", function (eventInfo) {
+                // TODO
+            },
+            false);
+        }
+        document.getElementById("bundles-btn").addEventListener("click", function (eventInfo) {
+            // TODO
+        },
+        false);
+        document.getElementById("shop-btn").addEventListener("click", function (eventInfo) {
+            // TODO
+        },
+        false);
+    });
+}
+
 function onAnswerBtnClick(eventInfo) {
-    if (GameState.Running != game.gameState) {
+    if (GameState.Playing != game.gameState) {
         // TODO: some error log
         return;
     }
@@ -235,16 +372,16 @@ function onActivated(args) {
             });
 
             // set button event listener
-            /*document.getElementById("menu-btn").addEventListener("click", function (eventInfo) {
-                // TODO
+            document.getElementById("menu-center-btn").addEventListener("click", function (eventInfo) {
+                game.changeState(GameState.Paused);
             },
             false);
 
             // set menu button position
-            $("#menu-btn").css("height", Math.floor(0.8 * $("#answers-div").outerHeight()).toString() + "px");
-            $("#menu-btn").css("width", $("#menu-btn").outerHeight().toString() + "px");
-            $("#menu-btn").css("margin-top", (($("#answers-div").outerHeight() - $("#menu-btn").outerHeight()) / 2).toString() + "px");
-            $("#menu-btn").css("margin-left", (($("#answers-div").outerWidth() - $("#menu-btn").outerWidth()) / 2).toString() + "px");*/
+            $("#menu-center-btn").css("height", Math.floor(0.8 * $("#answers-div").outerHeight()).toString() + "px");
+            $("#menu-center-btn").css("width", $("#menu-center-btn").outerHeight().toString() + "px");
+            $("#menu-center-btn").css("margin-top", (($("#answers-div").outerHeight() - $("#menu-center-btn").outerHeight()) / 2).toString() + "px");
+            $("#menu-center-btn").css("margin-left", (($("#answers-div").outerWidth() - $("#menu-center-btn").outerWidth()) / 2).toString() + "px");
 
             // set state to 'Loading'
             game.changeState(GameState.Loading);
