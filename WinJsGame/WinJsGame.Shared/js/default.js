@@ -238,21 +238,21 @@ function hideMenu() {
             $("#menu-div").css("display", "none");
         });
     // annimate overlay
-    WinJS.UI.executeTransition(
-        document.getElementById("overlay-div"),
-        {
-            property: "opacity",
-            delay: 0,
-            duration: 500,
-            timing: "linear",
-            from: 0.5,
-            to: 0
-        }).done(
-        function () {
-            $("#overlay-div").css("width", "0px");
-            $("#overlay-div").css("height", "0px");
-            $("#overlay-div").css("display", "none");
-        });
+    //WinJS.UI.executeTransition(
+    //    document.getElementById("overlay-div"),
+    //    {
+    //        property: "opacity",
+    //        delay: 0,
+    //        duration: 500,
+    //        timing: "linear",
+    //        from: 0.5,
+    //        to: 0
+    //    }).done(
+    //    function () {
+    //        $("#overlay-div").css("width", "0px");
+    //        $("#overlay-div").css("height", "0px");
+    //        $("#overlay-div").css("display", "none");
+    //    });
 }
 
 function showMenu(initial) {
@@ -269,32 +269,33 @@ function showMenu(initial) {
     }).then(function (response) {
         WinJS.Utilities.setInnerHTML(document.getElementById("menu-div"), response.responseText);
 
-        $("#overlay-div").css("width", "100%");
-        $("#overlay-div").css("height", "100%");
-        $("#overlay-div").css("display", "block");
+        //$("#overlay-div").css("width", "100%");
+        //$("#overlay-div").css("height", "100%");
+        //$("#overlay-div").css("display", "block");
 
-        $("#menu-div").css("width", "300px");
+        $("#menu-div").css("width", "100%");
+        $("#menu-div").css("height", "100%");
         $("#menu-div").css("display", "block");
 
         // fill menu
-        var menu_div_height = 0;
-        $("#menu-div").children().each(function () {
-            menu_div_height += $(this).outerHeight();
-        });
-        $("#menu-div").css("height", menu_div_height.toString() + "px");
+        //var menu_div_height = 0;
+        //$("#menu-div").children().each(function () {
+        //    menu_div_height += $(this).outerHeight();
+        //});
+        //$("#menu-div").css("height", menu_div_height.toString() + "px");
 
         if (!initial) {
             // annimate overlay
-            WinJS.UI.executeTransition(
-                document.getElementById("overlay-div"),
-                {
-                    property: "opacity",
-                    delay: 0,
-                    duration: 500,
-                    timing: "linear",
-                    from: 1,
-                    to: 0.5
-                });
+            //WinJS.UI.executeTransition(
+            //    document.getElementById("overlay-div"),
+            //    {
+            //        property: "opacity",
+            //        delay: 0,
+            //        duration: 500,
+            //        timing: "linear",
+            //        from: 1,
+            //        to: 0.5
+            //    });
             // annimate menu
             WinJS.UI.executeTransition(
                 document.getElementById("menu-div"),
@@ -310,6 +311,7 @@ function showMenu(initial) {
 
         // register menu buttons events
         if (initial) {
+            $("#new-game-btn").css("height", $("#new-game-btn").outerWidth().toString() + "px");
             document.getElementById("new-game-btn").addEventListener("click", function (eventInfo) {
                 hideMenu();
                 game.changeState(GameState.Playing);
@@ -317,19 +319,27 @@ function showMenu(initial) {
             false);
         }
         else {
-            document.getElementById("resart-game-btn").addEventListener("click", function (eventInfo) {
+            $("#restart-game-btn").css("height", $("#restart-game-btn").outerWidth().toString() + "px");
+            document.getElementById("restart-game-btn").addEventListener("click", function (eventInfo) {
                 // TODO
             },
             false);
         }
+        $("#bundles-btn").css("height", $("#bundles-btn").outerWidth().toString() + "px");
         document.getElementById("bundles-btn").addEventListener("click", function (eventInfo) {
             // TODO
         },
         false);
+        $("#shop-btn").css("height", $("#shop-btn").outerWidth().toString() + "px");
         document.getElementById("shop-btn").addEventListener("click", function (eventInfo) {
             // TODO
         },
         false);
+
+        $.each($(".menu-btn"), function () {
+            $(this).css("padding-top", ($(this).height() - 5 - parseFloat($(this).css("font-size"))).toString() + "px");
+            $(this).css("margin", (($("#menu-div").outerWidth()/2 - $(this).outerWidth()) / 2).toString() + "px");
+        });
     });
 }
 

@@ -1,6 +1,5 @@
 ﻿#lost-div {
     position: absolute;
-    background-color: #000000;
     display: none;
     opacity: 0;
     width: 200px;
@@ -34,18 +33,62 @@
 #menu-div {
     position: absolute;
     background-color: #000000;
-    width: 0px;
-    height: auto;
+    width: 100%;
+    height: 100%;
     margin: auto;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    border: solid 3px #ffffff;    
+    border: 0;
 }
 
 .menu-btn {
-   margin: 0px;
-   display: inline-block;
-   width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+    width: 45%;
+    height: auto;
+    border: 0;
+    color: #ffffff;
+}
+
+#new-game-btn {
+    background-color: #00de00;
+    background-image: url("../images/buttons/new_game.png");
+    float: left;
+}
+
+#new-game-btn:active {
+    background-color: #07a707;
+}
+
+#restart-game-btn {
+    background-color: #009f3c;
+    background-image: url("../images/buttons/restart_game.png");
+    float: left;
+}
+
+#resart-game-btn:active {
+    background-color: #066b2c;
+}
+
+#bundles-btn {
+    background-color: #008b8e;
+    background-image: url("../images/buttons/bundles.png");
+    float: right;
+}
+
+#bundles-btn:active {
+    background-color: #016062;
+}
+
+#shop-btn {
+    background-color: #019601;
+    background-image: url("../images/buttons/shop.png");
+    float: left;
+}
+
+#shop-btn:active {
+    background-color: #066806;
 }

@@ -53,7 +53,10 @@
     <Content Include="css\menu.css" />
     <Content Include="default.html" />
     <Content Include="html\menu.html" />
-    <Content Include="images\buttons\menu.png" />
+    <Content Include="images\buttons\bundles.png" />
+    <Content Include="images\buttons\restart_game.png" />
+    <Content Include="images\buttons\shop.png" />
+    <Content Include="images\buttons\new_game.png" />
     <Content Include="images\heath-ledger-bw.png" />
     <Content Include="images\heath-ledger-colored.png" />
     <Content Include="images\robert-de-niro-bw.png" />
