@@ -53,6 +53,11 @@
     <Content Include="css\menu.css" />
     <Content Include="default.html" />
     <Content Include="html\menu.html" />
+    <Content Include="images\bundles\test_bundle\bundle.json" />
+    <Content Include="images\bundles\test_bundle\heath-ledger-bw.png" />
+    <Content Include="images\bundles\test_bundle\heath-ledger-colored.png" />
+    <Content Include="images\bundles\test_bundle\robert-de-niro-bw.png" />
+    <Content Include="images\bundles\test_bundle\robert-de-niro-colored.png" />
     <Content Include="images\buttons\bundles.png" />
     <Content Include="images\buttons\restart_game.png" />
     <Content Include="images\buttons\shop.png" />
